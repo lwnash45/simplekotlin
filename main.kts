@@ -4,13 +4,96 @@ println("UW Homework: Simple Kotlin")
 
 // write a "whenFn" that takes an arg of type "Any" and returns a String
 
+fun whenFn(a: Any): String =
+    when (a) {
+        "Hello" -> "world"
+        "Howdy", "Bonjour" -> "Say what?"
+        is Int -> when (a) {
+            0 -> "zero"
+            1 -> "one"
+            in 2..10 -> "low number"
+            else -> "a number"
+        }
+        else -> "I don't understand"
+    } 
+
 // write an "add" function that takes two Ints, returns an Int, and adds the values
+
+fun add(x: Int, y: Int): Int {
+    return x + y
+}
+
 // write a "sub" function that takes two Ints, returns an Int, and subtracts the values
+
+fun sub(x: Int, y: Int): Int {
+    return x - y
+}
+
 // write a "mathOp" function that takes two Ints and a function (that takes two Ints and returns an Int), returns an Int, and applies the passed-in-function to the arguments
+
+fun mathOp(x: Int, y: Int, func: (x: Int, y: Int) -> Int): Int {
+    return func(x, y)
+}
 
 // write a class "Person" with first name, last name and age
 
+class Person(val firstName: String, val lastName: String, var age: Int) {
+
+    
+
+    public fun equals(compare: Person): Boolean {
+        if (this.hashCode() == compare.hashCode()) {
+            return true
+        }
+        return false
+    }
+
+    public val debugString: String = "[Person firstName:$firstName lastName:$lastName age:$age]"
+}
+
 // write a class "Money"
+
+//Conversion rates should be as follows: 10 USD converts to 5 GBP; 10 USD converts to 15 EUR; 12 USD converts to 15 CAN. 
+
+class Money(amount: Int, currency: String) {
+    
+    val currency: String = checkCurr(currency)
+    
+    var amount: Int = when (amount > 0) {
+        false -> throw Exception("No negative amounts")
+        else -> amount
+    }
+
+    private fun checkCurr(curr: String): String{
+        return when(curr === "USD" || curr === "GBP" || curr === "EUR" || curr === "CAN") {
+            false -> throw Exception("Wrong currency")
+            else -> curr
+        }
+    }
+
+    public fun findValue(curr: String): Double {
+        return when (curr) {
+            "USD" -> 1.0
+            "GBP" -> .5
+            "EUR" -> 1.5
+            else -> 1.25
+        }
+    }
+
+    public fun convert(newCurr: String): Money {
+        checkCurr(newCurr)
+
+        val x = findValue(currency)
+        val y = findValue(newCurr)
+        
+        return Money((this.amount / x / y).toInt(), newCurr)
+    }
+
+    operator fun plus(m: Money): Money {
+        val plus = m.convert(this.currency)
+        return Money(this.amount + plus.amount, this.currency)
+    }
+}
 
 // ============ DO NOT EDIT BELOW THIS LINE =============
 
