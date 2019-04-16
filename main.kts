@@ -39,7 +39,7 @@ fun mathOp(x: Int, y: Int, func: (x: Int, y: Int) -> Int): Int {
 
 class Person(val firstName: String, val lastName: String, var age: Int) {
 
-    
+
 
     public fun equals(compare: Person): Boolean {
         if (this.hashCode() == compare.hashCode()) {
@@ -48,7 +48,9 @@ class Person(val firstName: String, val lastName: String, var age: Int) {
         return false
     }
 
-    public val debugString: String = "[Person firstName:$firstName lastName:$lastName age:$age]"
+    public val debugString: String 
+        get() = "[Person firstName:$firstName lastName:$lastName age:$age]"
+    
 }
 
 // write a class "Money"
