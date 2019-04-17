@@ -73,22 +73,19 @@ class Money(amount: Int, currency: String) {
         }
     }
 
-    public fun findValue(curr: String): Double {
+    public fun findUSValue(curr: String): Double {
         return when (curr) {
             "USD" -> 1.0
-            "GBP" -> .5
-            "EUR" -> 1.5
-            else -> 1.25
+            "GBP" -> 2.0
+            "EUR" -> .666
+            else -> .8
         }
     }
 
     public fun convert(newCurr: String): Money {
         checkCurr(newCurr)
-
-        val x = findValue(currency)
-        val y = findValue(newCurr)
         
-        return Money((this.amount / x / y).toInt(), newCurr)
+        return Money((findUSValue(currency) * this.amount / findUSValue(newCurr)).toInt(), newCurr)
     }
 
     operator fun plus(m: Money): Money {
@@ -180,4 +177,5 @@ for ( (pair, result) in moneyadd_tests) {
     print(if ((pair.first + pair.second).amount == result.amount &&
               (pair.first + pair.second).currency == result.currency) "." else "!")
 }
+
 println("")
